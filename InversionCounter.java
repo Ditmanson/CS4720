@@ -6,8 +6,8 @@ public class InversionCounter {
     public static void main(String[] args) throws Exception {
         int[] testArray = {54044 ,14108,79294,29649,25260, 60660, 2995, 53777,49689,9083};
         //int [] testArray = {1,3,2};
-        int [] otherTestArray = Arrays.copyOf(testArray, testArray.length);
-        //int [] otherTestArray = {1,3,2};
+        //int [] otherTestArray = Arrays.copyOf(testArray, testArray.length);
+        int [] otherTestArray = {1,3,2};
         int inversions = exhaustiveCount(testArray);
         int inversionsCounted = countInv(otherTestArray);
         //System.out.printf("Inversions counted from exhaustive inversion counter %d\n",inversions);
@@ -36,8 +36,8 @@ public class InversionCounter {
         }
         else{
             int middle = array.length/2;
-            int[] leftInv = Arrays.copyOfRange(array,0,middle); //x in pseduocode from book
-            int[] rightInv = Arrays.copyOfRange(array,middle,array.length); // y in pseduocode from book
+            int[] leftInv = Arrays.copyOfRange(array,0,middle); //x in pseduocode from book slides
+            int[] rightInv = Arrays.copyOfRange(array,middle,array.length); // y in pseduocode from book slides
             
             // Sort the left and right halves recursively
             inversionCount += countInv(leftInv);
@@ -71,8 +71,9 @@ public class InversionCounter {
         }
 
         // Add any remaining elements from the left array
+        // this isn't in the pseduocode but it needs to be
         
-        while (i < left.length) {
+        while (i < left.length && j== right.length) {
             System.out.println("Inversion, right sides empty");
             System.out.printf("new left: %d\t far right: %d\n", left[i], right[j-1] );
             array[k++] = left[i++];
@@ -80,6 +81,8 @@ public class InversionCounter {
         }
 
         // Add any remaining elements from the right array
+        // this isn't in the pseduocode but it needs to be
+
         while (j < right.length) {
             //System.out.printf("No Inversion\nleft: %d\nright: %d\n",left[i-1],right[j]);
             System.out.println("No Inversion, left empty");
