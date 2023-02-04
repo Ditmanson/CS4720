@@ -4,13 +4,15 @@ import java.util.Arrays;
 
 public class InversionCounter {
     public static void main(String[] args) throws Exception {
-        int[] testArray = {3 ,1,2,4,19, 20, 15, 7};
+        int[] testArray = {54044 ,14108,79294,29649,25260, 60660, 2995, 53777,49689,9083};
         int [] otherTestArray = Arrays.copyOf(testArray, testArray.length);
         int inversions = exhaustiveCount(testArray);
         int inversionsCounted = countInv(otherTestArray);
-        System.out.println(inversions);
-        System.out.println(inversionsCounted);
-
+        System.out.printf("Inversions counted from exhaustive inversion counter %d\n",inversions);
+        System.out.printf("Inversions counted from mergesort inversion counter %d\n",inversionsCounted);
+        for(int i : otherTestArray){
+            System.out.printf("%d   ", i);
+        }
     }
 
     public static int exhaustiveCount(int []array){//input array
@@ -50,25 +52,27 @@ public class InversionCounter {
         // element and add it to the original array
         while (i < left.length && j < right.length) {
             if (left[i] <= right[j]) { //book psedocode uses b for left and c for right here
+                System.out.printf("No Inversion\nleft: %d\nright: %d\n",left[i],right[j]);
                 array[k++] = left[i++];
-                /*book uses only less than, not less than or equal to. this takes into the assumption that every
-                 * element in array is different. if we have two of the same element it would count an inversion if the elements 
-                 * were the same. so i made it less than or equal to
-                 */
+
             } else {
+                System.out.printf("inversion found\nleft: %d\nright: %d\n",left[i],right[j]);
                 array[k++] = right[j++];
                 inversionCount++;
             }
         }
 
         // Add any remaining elements from the left array
+        
         while (i < left.length) {
+            System.out.printf("inversion found\nleft: %d\nright: %d\n",left[i],right[j-1]);
             array[k++] = left[i++];
-            //inversionCount++;
+            inversionCount++;
         }
 
         // Add any remaining elements from the right array
         while (j < right.length) {
+            System.out.printf("No Inversion\nleft: %d\nright: %d\n",left[i-1],right[j]);
             array[k++] = right[j++];
         }
         return inversionCount;
