@@ -6,8 +6,8 @@ public class InversionCounter {
     public static void main(String[] args) throws Exception {
         int[] testArray = {54044 ,14108,79294,29649,25260, 60660, 2995, 53777,49689,9083};
         //int [] testArray = {1,3,2};
-        //int [] otherTestArray = Arrays.copyOf(testArray, testArray.length);
-        int [] otherTestArray = {1,3,2};
+        int [] otherTestArray = Arrays.copyOf(testArray, testArray.length);
+        //int [] otherTestArray = {1,3,2};
         int inversions = exhaustiveCount(testArray);
         int inversionsCounted = countInv(otherTestArray);
         //System.out.printf("Inversions counted from exhaustive inversion counter %d\n",inversions);
@@ -90,6 +90,10 @@ public class InversionCounter {
             array[k++] = right[j++];
             
         }
+        for(int z : array){
+            System.out.printf("%d   ", z);
+        }
+        System.out.printf("\nCount: %d \n",inversionCount);
         return inversionCount;
     }
 }
