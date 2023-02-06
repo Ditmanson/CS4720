@@ -4,14 +4,14 @@ import java.util.Arrays;
 public class MergeSortInversionCounter {
     public static void main(String[] args) throws Exception {
         int[] testArray = {54044 ,14108,79294,29649,25260, 60660, 2995, 53777,49689,9083};
-        //int [] testArray={ 1,3,2};
         int inversionsCounted = sortAndCountInv(testArray);
-        //System.out.printf("Inversions counted from exhaustive inversion counter %d\n",inversions);
-        System.out.printf("Inversions counted from mergesort inversion counter:\t%d\n",inversionsCounted);
-        System.out.println("sorted array:");
-        for(int i : testArray){
-            System.out.printf("%d   ", i);
-        }
+        //print statments to check algorithm
+        //System.out.printf("Inversions counted from mergesort inversion counter:\t%d\n",inversionsCounted);
+        //System.out.println("sorted array:");
+        // for(int i : testArray){
+        //     System.out.printf("%d   ", i);
+        // }
+        System.out.printf("Number of inversions counted: %d", inversionsCounted);
     }
     public static int sortAndCountInv(int []array){//input array
         int splitInv = 0;
@@ -44,14 +44,15 @@ public class MergeSortInversionCounter {
                 splitInv += (((array.length)/2) - i + 0);
                 }
             }
-            else if ((i<left.length)&& j==right.length) {
-                array[k] = left[i++];
+            //psedo code doesn't account for array out of bounds
+            else if ((i<left.length)&& (j==right.length)) {
+                array[k] = left[i++];//this is for if the right side of array has run through it's loop
             }
             else if((i==left.length)&& (j<right.length)){
-                array[k] = right[j++];
+                array[k] = right[j++];//this is for if the left side of the array has run through it's loop
             }
             else{
-                System.out.println("error");
+                System.out.println("error"); //should never run, if it does there's a problem
             }
         
     }
