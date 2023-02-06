@@ -8,7 +8,7 @@ public class InversionCounter {
         //int [] testArray = {1,3,2};
         int [] otherTestArray = Arrays.copyOf(testArray, testArray.length);
         //int [] otherTestArray = {1,3,2};
-        int inversions = exhaustiveCount(testArray);
+        //int inversions = exhaustiveCount(testArray);
         int inversionsCounted = countInv(otherTestArray);
         //System.out.printf("Inversions counted from exhaustive inversion counter %d\n",inversions);
         System.out.printf("Inversions counted from mergesort inversion counter:\t%d\n",inversionsCounted);
