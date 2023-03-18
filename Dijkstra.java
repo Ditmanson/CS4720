@@ -12,7 +12,7 @@ public class Dijkstra {
         char FromToE[][]={{'s','v'},{'v','w'},{'w','t'},{'s','w'},{'v','t'}};
         int len [] = {1,2,3,4,5};
         char vertexes[]={'s', 't', 'v', 'w'};
-        graph dijkstra = new graph(vertexes,FromToE,len);
+        graphs dijkstra = new graphs(vertexes,FromToE,len);
         dijkstra.printVertexList();
         System.out.println();
         dijkstra.printAdjacencies();
@@ -23,13 +23,13 @@ public class Dijkstra {
 
 
 
-class graph{
+class graphs{
 private int lengths[];
 private char adjacencylist[][];
 private char vertexlist[];
 
 // constructor
-public graph(char vertexes[],  char adjacencylist[][],int lengths[]) {
+public graphs(char vertexes[],  char adjacencylist[][],int lengths[]) {
     this.lengths=lengths;
     this.adjacencylist=adjacencylist;
     this.vertexlist=vertexes;
