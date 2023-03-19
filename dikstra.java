@@ -8,49 +8,47 @@
 import java.util.*;
 public class dikstra {
     public static void main(String[] args){
-        int numVerts =4;
-        int numEdges=5;
-        Graph dikstraGraph = new Graph(numEdges,numVerts);
-        //public Vertex(char name){
-            //dikstraGraph.addVertex('s');
-        char vertexNames[]= {'s','t','v','w'};
-        for (char name:vertexNames){
+        int numVerts =4; //needed for constructor
+        int numEdges=5; // needed for constructor
+        Graph dikstraGraph = new Graph(numEdges,numVerts); //declare and initialize dikstra
+        char vertexNames[]= {'s','t','v','w'}; // array of vertex names
+        for (char name:vertexNames){ // declare and initialize vertecies 
             Vertex vertex = new Vertex(name);
-            dikstraGraph.addVertex(vertex);
+            dikstraGraph.addVertex(vertex); // add vertex to graph
         }
-        int edgeWeight[]= {1,9,3,4,5};
-        char fromV[]={'s','v','w','s','v'};
+        int edgeWeight[]= {1,2,3,4,5}; // array of edge weights
+        char fromV[]={'s','v','w','s','v'}; // array of from destiantion
         char toV[]={'v','w','t','w','t'};
-        for (int i=0; i<numEdges; i++){
+        for (int i=0; i<numEdges; i++){ // declare and initalize edges
             Edge edge = new Edge(fromV[i], toV[i],edgeWeight[i]);
-            dikstraGraph.addEdge(edge);
+            dikstraGraph.addEdge(edge); // add edges to graph
         }
-        System.out.println(dikstraGraph);
-        dikstraGraph.dijkstrasPath('s');
-        System.out.println(dikstraGraph);
+        System.out.println(dikstraGraph); // print graph prior to algorithm
+        dikstraGraph.dijkstrasPath('s'); // apply the algorithm
+        System.out.println(dikstraGraph); // print out graph after algorithm
 
     }
 
 }
 class Graph{
     public static final String noMoreSpace="No more space, create new graph";
-    Vertex[] verticies;
+    Vertex[] verticies; // array of vert
     Edge[] edges; 
-    Vertex[] verticesSeen;
+    //Vertex[] verticesSeen; // removed, used booleans instead. Change came from al's data structure showing that was ok.
     int maxVerts;
     int maxEdges;
-    int edgeCount=0;
-    int vertexCount=0;
+    int edgeCount=0; // used instead of edges.length so the graph can be made to grow without slowing down speed
+    int vertexCount=0; // used instead of verticies.length so the graph can be made to grow without slowing down speed
 
     //graph constructor
     public Graph(int maxEdges, int maxVerts){
         verticies = new Vertex[maxVerts];
         edges = new Edge[maxEdges];
-        verticesSeen= new Vertex [maxVerts];
+        //verticesSeen= new Vertex [maxVerts]; // removed and replaced with booleans
         this.maxVerts=maxVerts;
         this.maxEdges=maxEdges;
     }
-    
+    // getters and setters
     public Vertex getVertex(char vertexName){
         for (int i=0; i<verticies.length;i++){
             if (verticies[i].getName() == vertexName){
@@ -67,7 +65,7 @@ class Graph{
         }        
         return -1;
     }
-
+// adders. is that a word...
     public void addVertex(Vertex newVertex){
         if (vertexCount<maxVerts){
             verticies[vertexCount++]=newVertex;
@@ -84,36 +82,37 @@ class Graph{
             System.out.println(noMoreSpace);
         }
     }
+
     public void dijkstrasPath(char vertexName){
 //set the stage
 for(int i=0; i<verticies.length;i++){
-    verticies[i].setLength(Integer.MAX_VALUE);
-    verticies[i].setVisited(false);
+    verticies[i].setLength(Integer.MAX_VALUE); // Integer.MAX_VALUE used for inifinity
+    verticies[i].setVisited(false); // set all booleans to false
 }
-        int distanceFromSource=0;
-        int index = getVertexIndex(vertexName);
-        verticies[index].setVisited(true);
-        verticies[index].setLength(0);
-        boolean allSeen=false;
+        int distanceFromSource=0; // initialize source distance to zero
+        int index = getVertexIndex(vertexName); // getvertex index is needed for modifying arrays inside the object
+        verticies[index].setVisited(true); // set soure vertex to visited
+        verticies[index].setLength(distanceFromSource); // set source vertex length to zero
+        boolean allSeen=false; // while loop exit boolean.
         Arrays.sort(edges); // ensure the edges are in ascending order
-        char name;
+        char name; // declare a variable name as a char
         //aglorithm time!!
-        while (!allSeen){ //currently set as a boolean to escape because
+        while (!allSeen){ //when all from verticies possible to travel to from the source have been visited. then exit while loop
             for (int i=0; i<edges.length; i++){ 
-                Vertex fromVertex=getVertex(edges[i].getFromV());
-                Vertex toVertex=getVertex(edges[i].getToV());
-                if(fromVertex.isVisited()==true && toVertex.isVisited()==false){
-                    distanceFromSource=fromVertex.getLength()+edges[i].getWeight();
-                    name = edges[i].getToV();
-                    index = getVertexIndex(name);
-                    verticies[index].setLength(distanceFromSource);
-                    verticies[index].setVisited(true);
+                Vertex fromVertex=getVertex(edges[i].getFromV()); // get the from vertex in a variable
+                Vertex toVertex=getVertex(edges[i].getToV()); // get the to vertex in a variable
+                if(fromVertex.isVisited()==true && toVertex.isVisited()==false){  // only execute next line if we are at the from vertex and need to travel to the to vertex
+                    distanceFromSource=fromVertex.getLength()+edges[i].getWeight(); // calculate distance
+                    name = edges[i].getToV(); // get the name of the to edge
+                    index = getVertexIndex(name); // get the index so we can update the graph
+                    verticies[index].setLength(distanceFromSource); // update graph distance
+                    verticies[index].setVisited(true); // update graph visited booleans
                 }
             }
-            allSeen=true;
-            for(int i=0; i<edges.length; i++){
+            allSeen=true; // set boolean to true and then check if we are ready to exit
+            for(int i=0; i<edges.length; i++){ 
                 if(getVertex(edges[i].getFromV()).isVisited() && !getVertex(edges[i].getToV()).isVisited()){
-                allSeen=false;
+                allSeen=false; // if there's more graph to traverse then set boolean to false and repeat
                 }
             }
         }
@@ -121,7 +120,7 @@ for(int i=0; i<verticies.length;i++){
 
 
     @Override
-    public String toString() {
+    public String toString() { // used string builder for toString to get the entire graph
         StringBuilder sb = new StringBuilder();
         sb.append("Vertices:\n");
         for (int i = 0; i < vertexCount; i++) {
@@ -169,14 +168,14 @@ for(int i=0; i<verticies.length;i++){
 
         //override toString
         @Override
-        public String toString(){
+        public String toString(){// create toString for the a vertex
             return String.format("Vertex %c: Path length %d: ",name,length);
         }
 
 
     }
     //edge class
-    class Edge implements Comparable<Edge>{
+    class Edge implements Comparable<Edge>{ // edges must use comparable interface so they can be sorted prior to entering.
         private char fromV;
         private char toV;
         private int weight;
@@ -205,12 +204,12 @@ for(int i=0; i<verticies.length;i++){
         public int getWeight(){
             return weight;
         }
-        @Override
+        @Override // override to string to something pretty
         public String toString(){
             return String.format("From %c to %c -- Cost:%d", fromV, toV,weight);
         }
         @Override
-        public int compareTo(Edge edge){
+        public int compareTo(Edge edge){ // used to put edges in ascending order based weights
             if(this.weight>edge.weight){
                 return 1;
             }
